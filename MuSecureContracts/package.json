@@ -19,6 +19,6 @@
     "waffle": "^0.0.4"
   },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^16.0.0"
   }
 }
