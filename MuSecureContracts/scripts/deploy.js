@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function main() {
-  
+ 
   const network = await ethers.provider.getNetwork();
   const networkName = network.name === "unknown" ? "base-sepolia" : network.name;
   
@@ -16,12 +16,13 @@ async function main() {
   const balance = await ethers.provider.getBalance(deployer.address);
   console.log(` Balance: {ethers.utils.formatEther(balance)} ETH`);
   
+  
   if (networkName !== "localhost" && balance.lt(ethers.utils.parseEther("0.01"))) {
     throw new Error(" Balance insuficiente. Obtén ETH de test de: https://faucet.circle.com/");
   }
 
   try {
-    // 1. Desplegar SubscriptionManager
+   
     console.log("\n  Desplegando SubscriptionManager...");
     const SubscriptionManager = await ethers.getContractFactory("SubscriptionManager");
     const subscriptionManager = await SubscriptionManager.deploy();
@@ -34,7 +35,6 @@ async function main() {
     await musicRegistry.deployed();
     console.log(" MusicRegistry:", musicRegistry.address);
     
-
     
     console.log("\n Guardando direcciones de contratos...");
     const contracts = {
@@ -55,11 +55,12 @@ async function main() {
     fs.writeFileSync(deploymentFile, JSON.stringify(contracts, null, 2));
     console.log(" Deployment guardado en:", deploymentFile);
     
-    console.log(`\n¡Deployment en {networkName.toUpperCase()} completado!`);
-    console.log("");
+   
+    console.log(`\n ¡Deployment en {networkName.toUpperCase()} completado!`);
+    console.log("===========================================");
     console.log(" Contratos desplegados:");
-    console.log(`   • SubscriptionManager: ${subscriptionManager.address}`);
-    console.log(`   • MusicRegistry: ${musicRegistry.address}`);
+    console.log(`   • SubscriptionManager: {subscriptionManager.address}`);
+    console.log(`   • MusicRegistry: {musicRegistry.address}`);
     
     if (networkName === "base-sepolia") {
       console.log("\n Verificar en BaseScan:");
